@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CityCollection;
+use App\Http\Resources\CityResource;
 use App\Models\city;
 use App\Http\Requests\StorecityRequest;
 use App\Http\Requests\UpdatecityRequest;
@@ -13,7 +15,9 @@ class CityController extends Controller
      */
     public function index()
     {
-        //
+        $cities = city::all();
+        
+        return new CityCollection($cities);
     }
 
     /**
@@ -29,7 +33,7 @@ class CityController extends Controller
      */
     public function store(StorecityRequest $request)
     {
-        //
+        return new CityResource(city::create($request->all()));
     }
 
     /**

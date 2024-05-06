@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AirlineResource;
+use App\Http\Resources\AirlineCollection;
+use Illuminate\Http\Request;
 use App\Models\airline;
 use App\Http\Requests\StoreairlineRequest;
 use App\Http\Requests\UpdateairlineRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AirlineController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $airlines = Airline::all();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+
+    return new AirlineCollection($airlines);
     }
 
     /**
@@ -29,7 +28,7 @@ class AirlineController extends Controller
      */
     public function store(StoreairlineRequest $request)
     {
-        //
+        return new AirlineResource(airline::create($request->all()));
     }
 
     /**
@@ -37,15 +36,7 @@ class AirlineController extends Controller
      */
     public function show(airline $airline)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(airline $airline)
-    {
-        //
+        return new AirlineResource($airline);
     }
 
     /**
@@ -53,7 +44,7 @@ class AirlineController extends Controller
      */
     public function update(UpdateairlineRequest $request, airline $airline)
     {
-        //
+        $airline->update($request->all());
     }
 
     /**
@@ -61,6 +52,7 @@ class AirlineController extends Controller
      */
     public function destroy(airline $airline)
     {
-        //
+        $airline=airline::where('id',auth::id())->delete();
+        return response()->json(['access'=>true,'message'=>'airline deleted successfully']);
     }
 }

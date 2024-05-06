@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PlaceResource;
 use App\Models\place;
 use App\Http\Requests\StoreplaceRequest;
 use App\Http\Requests\UpdateplaceRequest;
+use App\Http\Resources\PlaceCollection;
 
 class PlaceController extends Controller
 {
@@ -13,7 +15,9 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        //
+        $places = Place::all();
+        
+        return new PlaceCollection($places);
     }
 
     /**
@@ -29,7 +33,7 @@ class PlaceController extends Controller
      */
     public function store(StoreplaceRequest $request)
     {
-        //
+        return new PlaceResource(place::create($request->all()));
     }
 
     /**

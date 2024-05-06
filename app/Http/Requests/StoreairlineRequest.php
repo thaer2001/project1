@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class StoreairlineRequest extends FormRequest
 {
@@ -22,7 +24,10 @@ class StoreairlineRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required'],
+            'class' => ['required', Rule::in(['A','B','a','b'])],
+            'time' => ['required'],
+            'passengers' => ['required'],
         ];
     }
 }

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CarResource;
 use App\Models\car;
 use App\Http\Requests\StorecarRequest;
 use App\Http\Requests\UpdatecarRequest;
+use App\Http\Resources\CarCollection;
+use Illuminate\Support\Facades\Auth;
 
 class CarController extends Controller
 {
@@ -13,23 +16,18 @@ class CarController extends Controller
      */
     public function index()
     {
-        //
+        $cars = Car::all();
+        
+        return new CarCollection($cars);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StorecarRequest $request)
     {
-        //
+        return new CarResource(car::create($request->all()));
     }
 
     /**
@@ -37,15 +35,7 @@ class CarController extends Controller
      */
     public function show(car $car)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(car $car)
-    {
-        //
+        return new CarResource($car);
     }
 
     /**
@@ -53,7 +43,7 @@ class CarController extends Controller
      */
     public function update(UpdatecarRequest $request, car $car)
     {
-        //
+        $car->update($request->all());
     }
 
     /**
@@ -61,6 +51,7 @@ class CarController extends Controller
      */
     public function destroy(car $car)
     {
-        //
+        $car=car::where('id',auth::id())->delete();
+        return response()->json(['access'=>true,'message'=>'car deleted successfully'],200);
     }
 }

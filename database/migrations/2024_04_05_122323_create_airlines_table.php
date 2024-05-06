@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('airlines', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // company name
-            $table->string('class');
+            $table->string('class'); 
             $table->dateTime('time');
             $table->integer('passengers'); // passengers number
             $table->timestamps();

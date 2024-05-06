@@ -11,7 +11,7 @@ class UpdatecarRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,24 @@ class UpdatecarRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+
+        if ($method == 'PUT') { // the put method requires all the arguments
+            return [
+                'name' => ['required'],
+                'type' => ['required'],
+                'rent_date' => ['required'],
+                'rent_duration' => ['required'], 
+                'model' => ['required']
+            ];
+        } else {     // it is either patch or post so the arguments can be empty sometimes
+            return [
+                'name' => ['sometimes','required'],
+                'type' => ['sometimes','required'],
+                'rent_date' => ['sometimes','required'],
+                'rent_duration' => ['sometimes','required'], 
+                'model' => ['sometimes','required']
+            ];
+        }
     }
 }

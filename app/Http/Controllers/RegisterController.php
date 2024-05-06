@@ -21,7 +21,7 @@ class RegisterController extends Controller
 
     public function login(Request $request) {
         
-        $token = auth()->user()->createToken('token')->accessToken;
+        $token = auth()->user()->createToken('adminToken')->accessToken;
         return response()->json(['access'=>true,'message'=>'loged-in successfully','token is'=>$token],200); 
     }
 }

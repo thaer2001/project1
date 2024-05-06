@@ -11,7 +11,7 @@ class StoreplaceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreplaceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required'],
+            'details' => ['required'],
+            'address' => ['required'],
+            'pictures' => ['required'], 
         ];
     }
 }

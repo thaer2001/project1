@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\HotelResource;
 use App\Models\hotel;
 use App\Http\Requests\StorehotelRequest;
 use App\Http\Requests\UpdatehotelRequest;
+use App\Http\Resources\HotelCollection;
 
 class HotelController extends Controller
 {
@@ -13,23 +15,18 @@ class HotelController extends Controller
      */
     public function index()
     {
-        //
+        $hotels = Hotel::all();
+        
+        return new HotelCollection($hotels);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
+ 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StorehotelRequest $request)
     {
-        //
+        return new HotelResource(hotel::create($request->all()));
     }
 
     /**

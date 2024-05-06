@@ -11,7 +11,7 @@ class UpdateplaceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,21 @@ class UpdateplaceRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+
+        if ($method == 'PUT') { // the put method requires all the arguments
+            return [
+                'name' => ['required'],
+                'details' => ['required'],
+                'passengers' => ['required'],
+                'pictures' => ['required']
+            ];
+        } else {     // it is either patch or post so the arguments can be empty sometimes
+            return [
+                'name' => ['sometimes','required'],
+                'details' => ['sometimes','required'],
+                'address' => ['sometimes','required'],
+                'pictures' => ['sometimes','required']
+            ];
     }
 }
