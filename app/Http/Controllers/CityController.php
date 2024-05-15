@@ -7,6 +7,7 @@ use App\Http\Resources\CityResource;
 use App\Models\city;
 use App\Http\Requests\StorecityRequest;
 use App\Http\Requests\UpdatecityRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CityController extends Controller
 {
@@ -20,13 +21,6 @@ class CityController extends Controller
         return new CityCollection($cities);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -41,15 +35,7 @@ class CityController extends Controller
      */
     public function show(city $city)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(city $city)
-    {
-        //
+        return new CityResource($city);
     }
 
     /**
@@ -57,7 +43,7 @@ class CityController extends Controller
      */
     public function update(UpdatecityRequest $request, city $city)
     {
-        //
+        $city->update($request->all());
     }
 
     /**
@@ -65,6 +51,7 @@ class CityController extends Controller
      */
     public function destroy(city $city)
     {
-        //
+        $city = city::where('id',auth::id())->delete();
+        return response()->json(['access'=>true,'message'=>'car deleted successfully'],200);
     }
 }

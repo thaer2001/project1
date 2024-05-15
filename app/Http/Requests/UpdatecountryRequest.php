@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorecityRequest extends FormRequest
+class UpdatecountryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,9 +21,15 @@ class StorecityRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => ['required'],
-            'info' => ['required']
-        ];
+        $method = $this->method();
+
+        if ($method == 'PUT') { // the put method requires all the arguments
+            return [
+                'name' => ['required'],
+            ];
+        } else {     // it is either patch or post so the arguments can be empty sometimes
+            return [
+                'name' => ['sometimes','required'],
+            ];
     }
 }
